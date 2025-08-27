@@ -8,18 +8,42 @@ export default function AboutPage() {
       
       <main className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="bg-card p-8 rounded-lg border">
-          <h1 className="text-4xl font-bold text-foreground mb-6">About the Project</h1>
-          
+          <h1 className="text-4xl font-bold text-foreground mb-6">О проекте</h1>
           <div className="prose prose-sm sm:prose lg:prose-lg max-w-none">
             <p className="text-lg text-muted-foreground mb-6">
-              NIS Open Educational Platform is an open-source initiative designed to make high school educational materials accessible to everyone.
+              nisOpen - это открытая платформа, на которой школьники, учителя и любые желающие могут иметь доступ
+              к качественным учебным материалам от НИШ.
             </p>
 
-            <h2 className="text-2xl font-semibold text-foreground mb-4">Our Mission</h2>
+            <h2 className="text-2xl font-semibold text-foreground mb-4">Идея</h2>
             <p className="text-muted-foreground mb-6">
-              We believe that quality education should be accessible to all students, regardless of their background or location. 
-              This platform serves as a centralized repository where teachers can upload and organize educational materials, 
-              and students can easily access them from anywhere in the world.
+              Изначально, идея сайта была в том, чтобы создать альтернативу для Teams, в котором всегда тонна файлов, 
+              сложно найти что-то нужное и поэтому чувствуешь себя как будто ищешь иголку в стоге сена. На nisopen.com вы 
+              можете находить найти учебные материалы по названию, по предмету, разделу или четверти. Все доступно в несколько 
+              нажатий и создано, чтобы облегчить обучения для учеников НИШ Астаны. 
+              </p>
+              <p className="text-muted-foreground mb-6">
+              Походу дела когда мы начали строить веб-сайт и собирать материалы перед нами встал вопрос - сделать сайт доступным 
+              только для учеников НИШ или же полностью открытым? Вроде как, вначале он создавался для наших учеников, и поэтому 
+              напрашивается ответ, что надо сделать его доступным только наших учеников. Однако когда встал именно этот вопросы, 
+              мы поняли, что веб-сайт обладает потенциалом помогать не только ученикам НИШ, но и школьникам в ‘обычных’ школах. 
+              Открытые и доступные материалы НИШ помогли бы учителям из других школ в подготовке к урокам, и были бы ценным 
+              дополнительным ресурсам в обучении школьников вне зависимости от их школы, и поэтому мы считаем, что сайт должен 
+              быть открытым для всех. 
+            </p>
+            <h2 className="text-2xl font-semibold text-foreground mb-4">Еще Одна Причина</h2>
+            <p className="text-muted-foreground mb-6">
+              Можно ответить на этот вопрос и с другой стороны - разве НИШ будучи эталоном и лидером в 
+              сфере образования не должен показывать пример/помогать другим школам? Если одна из главных целей 
+              НИШа была образование и воспитание школьников, которые будут развивать нашу страну, то почему бы не 
+              поделиться учебными ресурсами, на которых они учатся? Может на примере лучшего университета в мир - MIT, 
+              который сделал общедоступным учебные материалы, записи лекций и многие другие ресурсы, тем самым только 
+              укрепив свое имя, НИШ должен последовать тому же принципу? </p>
+              
+            <p className="text-muted-foreground mb-6">
+              В этом и заключается идея нашей платформы. Мы верим, что поделившись своими качественными учебными материалами, 
+              НИШ внесет несоизмеримый вклад в развитие казахстанского общества. Именно поэтому материалы могут загружать и 
+              использовать все!
             </p>
 
             <h2 className="text-2xl font-semibold text-foreground mb-4">Key Features</h2>
@@ -42,7 +66,7 @@ export default function AboutPage() {
               </ol>
             </div>
 
-            <h2 className="text-2xl font-semibold text-foreground mb-4">Technology Stack</h2>
+            {/* <h2 className="text-2xl font-semibold text-foreground mb-4">Technology Stack</h2>
             <p className="text-muted-foreground mb-4">
               Built with modern web technologies to ensure reliability and performance:
             </p>
@@ -53,7 +77,7 @@ export default function AboutPage() {
               <li>NextAuth.js - Secure authentication</li>
               <li>Tailwind CSS - Utility-first CSS framework</li>
               <li>AWS S3 - File storage and CDN</li>
-            </ul>
+            </ul> */}
 
             <h2 className="text-2xl font-semibold text-foreground mb-4">Contributing</h2>
             <p className="text-muted-foreground mb-6">
