@@ -11,8 +11,8 @@
   --secondary-foreground: #0f172a;
   --muted: #f8fafc;
   --muted-foreground: #64748b;
-  --accent: #ecfdf5;
-  --accent-foreground: #065f46;
+  --accent: #f1f5f9;
+  --accent-foreground: #1e293b;
   --border: #e2e8f0;
   --ring: #10b981;
 }
@@ -36,22 +36,39 @@
   --font-mono: var(--font-geist-mono);
 }
 
+.dark {
+  --background: #0f172a;
+  --foreground: #f8fafc;
+  --card: #1e293b;
+  --card-foreground: #f8fafc;
+  --primary: #10b981;
+  --primary-foreground: #ffffff;
+  --secondary: #334155;
+  --secondary-foreground: #f8fafc;
+  --muted: #1e293b;
+  --muted-foreground: #cbd5e1;
+  --accent: #1e293b;
+  --accent-foreground: #f8fafc;
+  --border: #334155;
+  --ring: #10b981;
+}
+
 @media (prefers-color-scheme: dark) {
-  :root {
+  :root:not(.light) {
     --background: #0f172a;
-    --foreground: #f1f5f9;
+    --foreground: #f8fafc;
     --card: #1e293b;
-    --card-foreground: #f1f5f9;
-    --primary: #34d399;
-    --primary-foreground: #0f172a;
+    --card-foreground: #f8fafc;
+    --primary: #10b981;
+    --primary-foreground: #ffffff;
     --secondary: #334155;
-    --secondary-foreground: #f1f5f9;
-    --muted: #334155;
-    --muted-foreground: #94a3b8;
-    --accent: #064e3b;
-    --accent-foreground: #a7f3d0;
+    --secondary-foreground: #f8fafc;
+    --muted: #1e293b;
+    --muted-foreground: #cbd5e1;
+    --accent: #1e293b;
+    --accent-foreground: #f8fafc;
     --border: #334155;
-    --ring: #34d399;
+    --ring: #10b981;
   }
 }
 
@@ -59,6 +76,24 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: var(--font-sans), Arial, Helvetica, sans-serif;
+}
+
+/* Ensure proper navigation layout */
+nav * {
+  box-sizing: border-box;
+}
+
+/* Fix potential flexbox issues */
+.flex {
+  display: flex !important;
+}
+
+.justify-between {
+  justify-content: space-between !important;
+}
+
+.items-center {
+  align-items: center !important;
 }
 
 /* Custom styles for the TipTap editor */
@@ -86,7 +121,7 @@ body {
 }
 
 .prose h1, .prose h2, .prose h3, .prose h4, .prose h5, .prose h6 {
-  color: var(--foreground);
+  color: var(--foreground) !important;
   font-weight: 600;
   margin-top: 1.5em;
   margin-bottom: 0.5em;
@@ -111,6 +146,7 @@ body {
   margin-top: 1em;
   margin-bottom: 1em;
   line-height: 1.6;
+  color: var(--foreground);
 }
 
 .prose a {
@@ -192,4 +228,110 @@ body {
 
 .prose em {
   font-style: italic;
+}
+
+/* Additional dark mode improvements */
+.prose * {
+  color: inherit;
+}
+
+.prose div, .prose span {
+  color: var(--foreground);
+}
+
+/* Override inline styles in Mathematics content for dark mode compatibility */
+.prose h1[style*="color"] {
+  color: var(--foreground) !important;
+}
+
+.prose h2[style*="color"] {
+  color: var(--foreground) !important;
+}
+
+.prose h3[style*="color"] {
+  color: var(--primary) !important;
+}
+
+.prose h4[style*="color"] {
+  color: var(--primary) !important;
+}
+
+.prose p[style*="color"] {
+  color: var(--foreground) !important;
+}
+
+.prose ul[style*="color"] {
+  color: var(--foreground) !important;
+}
+
+.prose li {
+  color: var(--foreground) !important;
+}
+
+/* Fix card backgrounds in Mathematics pages */
+.prose div[style*="background"] {
+  background-color: var(--card) !important;
+  border-color: var(--border) !important;
+  color: var(--card-foreground) !important;
+}
+
+/* Fix separator lines */
+.prose hr[style*="background"] {
+  background-color: var(--border) !important;
+}
+
+/* Ensure all text in prose content is visible */
+.dark .prose {
+  color: var(--foreground) !important;
+}
+
+.dark .prose * {
+  color: var(--foreground) !important;
+}
+
+.dark .prose h1, 
+.dark .prose h2, 
+.dark .prose h3, 
+.dark .prose h4, 
+.dark .prose h5, 
+.dark .prose h6 {
+  color: var(--foreground) !important;
+}
+
+.dark .prose p {
+  color: var(--foreground) !important;
+}
+
+.dark .prose li {
+  color: var(--foreground) !important;
+}
+
+/* Specific overrides for Mathematics content */
+.dark .prose div[style*="color"] * {
+  color: var(--foreground) !important;
+}
+
+/* Ensure cards and content areas have proper contrast */
+.dark .bg-card {
+  background-color: var(--card);
+  color: var(--card-foreground);
+}
+
+.dark .text-muted-foreground {
+  color: var(--muted-foreground) !important;
+}
+
+.dark .border {
+  border-color: var(--border);
+}
+
+/* Improve TipTap editor dark mode */
+.dark .ProseMirror {
+  background: var(--card);
+  color: var(--card-foreground);
+  border-color: var(--border);
+}
+
+.dark .ProseMirror p.is-editor-empty:first-child::before {
+  color: var(--muted-foreground);
 }

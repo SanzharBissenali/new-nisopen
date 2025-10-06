@@ -8,7 +8,8 @@
     "start": "next start",
     "lint": "eslint",
     "postinstall": "prisma generate",
-    "db:seed": "tsx scripts/seed.ts"
+    "db:seed": "tsx scripts/seed.ts",
+    "s3:import": "tsx scripts/bulk-import-s3-files.ts"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.873.0",

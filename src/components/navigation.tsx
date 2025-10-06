@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useSession, signOut } from "next-auth/react";
 import { cn } from "@/lib/utils";
+import { ThemeToggle } from "./theme-toggle";
 
 export function Navigation() {
   const { data: session } = useSession();
@@ -38,6 +39,8 @@ export function Navigation() {
             >
               Search
             </Link>
+            
+            <ThemeToggle />
             
             {session ? (
               <>
