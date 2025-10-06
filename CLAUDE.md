@@ -38,7 +38,7 @@ npx prisma studio    # Open Prisma Studio
 ## Environment Variables
 Required in `.env.local`:
 - `DATABASE_URL`
-- `NEXTAUTH_SECRET="EML+cP5jhxgJgfOBHxpiEZjfkFJ4J0GR/OemS8FofdA="`
+- `NEXTAUTH_SECRET` (generate a secure random string)
 - `NEXTAUTH_URL` (update with your Vercel URL after deployment)
 - `AWS_ACCESS_KEY_ID`
 - `AWS_SECRET_ACCESS_KEY` 
