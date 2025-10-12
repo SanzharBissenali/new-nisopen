@@ -5,8 +5,11 @@ import { useEditor, EditorContent } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import Link from "@tiptap/extension-link";
 import Image from "@tiptap/extension-image";
+import Underline from "@tiptap/extension-underline";
 import { useSession } from "next-auth/react";
 import { Save, Eye, Edit, Trash2, Plus } from "lucide-react";
+import { getAvailableSubjects, isValidSubject } from "@/lib/subjects";
+import { EditorToolbar } from "./editor-toolbar";
 
 interface Page {
   id: string;
@@ -43,12 +46,13 @@ export function PageEditor() {
         openOnClick: false,
       }),
       Image,
+      Underline,
     ],
     content: "",
     immediatelyRender: false,
     editorProps: {
       attributes: {
-        class: "prose prose-sm sm:prose lg:prose-lg xl:prose-2xl mx-auto focus:outline-none min-h-[300px] p-4",
+        class: "prose prose-sm sm:prose lg:prose-lg xl:prose-2xl mx-auto focus:outline-none min-h-[300px] p-4 border border-border rounded-md",
       },
     },
   });
@@ -167,7 +171,14 @@ export function PageEditor() {
     setIsEditing(true);
     setTitle("");
     setSlug("");
-    setSubject("");
+    
+    // Auto-set subject for subject-specific teachers
+    const availableSubjects = getAvailableSubjects(session?.user?.subject, session?.user?.role);
+    if (availableSubjects.length === 1) {
+      setSubject(availableSubjects[0]);
+    } else {
+      setSubject("");
+    }
     setGrade("");
     setQuarter("");
     setPublished(false);
@@ -320,14 +331,24 @@ export function PageEditor() {
                 </div>
                 <div>
                   <label className="block text-sm font-medium mb-1">Subject</label>
-                  <input
-                    type="text"
+                  <select
                     value={subject}
                     onChange={(e) => setSubject(e.target.value)}
                     disabled={!isEditing}
                     className="w-full px-3 py-2 border border-border rounded-md focus:outline-none focus:ring-2 focus:ring-primary disabled:bg-muted"
-                    placeholder="Mathematics, Chemistry, etc."
-                  />
+                  >
+                    <option value="">Select a subject...</option>
+                    {getAvailableSubjects(session?.user?.subject, session?.user?.role).map((subjectOption) => (
+                      <option key={subjectOption} value={subjectOption}>
+                        {subjectOption}
+                      </option>
+                    ))}
+                  </select>
+                  {session?.user?.subject && session.user.role !== "ADMIN" && (
+                    <p className="text-xs text-muted-foreground mt-1">
+                      You can only create pages for {session.user.subject}
+                    </p>
+                  )}
                 </div>
                 <div>
                   <label className="block text-sm font-medium mb-1">Grade</label>
@@ -374,6 +395,7 @@ export function PageEditor() {
                 </p>
               </div>
               <div className={`${!isEditing ? "pointer-events-none opacity-60" : ""}`}>
+                {isEditing && <EditorToolbar editor={editor} />}
                 <EditorContent editor={editor} />
               </div>
             </div>

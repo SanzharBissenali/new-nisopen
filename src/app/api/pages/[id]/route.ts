@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
+import { isValidSubject, getAvailableSubjects } from "@/lib/subjects";
 
 export async function PUT(
   request: NextRequest,
@@ -21,6 +22,17 @@ export async function PUT(
       return NextResponse.json({ error: "Title and slug are required" }, { status: 400 });
     }
 
+    // Validate subject
+    if (subject && !isValidSubject(subject)) {
+      return NextResponse.json({ error: "Invalid subject selected" }, { status: 400 });
+    }
+
+    // Check if user can create pages with this subject
+    const availableSubjects = getAvailableSubjects(session.user.subject, session.user.role);
+    if (subject && !availableSubjects.includes(subject as typeof availableSubjects[number])) {
+      return NextResponse.json({ error: "You are not authorized to create pages for this subject" }, { status: 403 });
+    }
+
     const page = await prisma.page.findUnique({
       where: { id },
     });
@@ -29,7 +41,12 @@ export async function PUT(
       return NextResponse.json({ error: "Page not found" }, { status: 404 });
     }
 
-    if (page.authorId !== session.user.id && session.user.role !== "ADMIN") {
+    // Check permissions: owner, admin, or subject-specific teacher
+    const canEdit = session.user.role === "ADMIN" || 
+                   page.authorId === session.user.id ||
+                   (session.user.subject && page.subject === session.user.subject);
+
+    if (!canEdit) {
       return NextResponse.json({ error: "Forbidden" }, { status: 403 });
     }
 
@@ -44,13 +61,19 @@ export async function PUT(
       }
     }
 
+    // Auto-set subject for subject-specific teachers
+    let pageSubject = subject;
+    if (session.user.subject && session.user.role !== "ADMIN") {
+      pageSubject = session.user.subject;
+    }
+
     const updatedPage = await prisma.page.update({
       where: { id },
       data: {
         title,
         slug,
         content,
-        subject,
+        subject: pageSubject,
         grade,
         quarter,
         published,
@@ -84,7 +107,12 @@ export async function DELETE(
       return NextResponse.json({ error: "Page not found" }, { status: 404 });
     }
 
-    if (page.authorId !== session.user.id && session.user.role !== "ADMIN") {
+    // Check permissions: owner, admin, or subject-specific teacher
+    const canEdit = session.user.role === "ADMIN" || 
+                   page.authorId === session.user.id ||
+                   (session.user.subject && page.subject === session.user.subject);
+
+    if (!canEdit) {
       return NextResponse.json({ error: "Forbidden" }, { status: 403 });
     }
 

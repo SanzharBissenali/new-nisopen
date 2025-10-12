@@ -17,6 +17,7 @@
     "@prisma/client": "^6.14.0",
     "@tiptap/extension-image": "^3.2.1",
     "@tiptap/extension-link": "^3.2.1",
+    "@tiptap/extension-underline": "^3.6.6",
     "@tiptap/react": "^3.2.1",
     "@tiptap/starter-kit": "^3.2.1",
     "@types/bcryptjs": "^3.0.0",
