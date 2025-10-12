@@ -5,15 +5,40 @@ import { SearchForm } from "@/components/search-form";
 import { prisma } from "@/lib/prisma";
 
 export default async function Home() {
-  const pages = await prisma.page.findMany({
-    where: { published: true },
-    include: { author: { select: { name: true, email: true } } },
-    orderBy: { updatedAt: "desc" },
-    take: 10,
-  });
+  interface PageWithAuthor {
+    id: string;
+    title: string;
+    slug: string;
+    subject: string | null;
+    grade: string | null;
+    quarter: string | null;
+    updatedAt: Date;
+    author: {
+      name: string | null;
+      email: string;
+    };
+  }
+  
+  let pages: PageWithAuthor[] = [];
+  let subjects: string[] = [];
+  let grades: string[] = [];
 
-  const subjects = [...new Set(pages.map(page => page.subject).filter(Boolean))];
-  const grades = [...new Set(pages.map(page => page.grade).filter(Boolean))];
+  try {
+    pages = await prisma.page.findMany({
+      where: { published: true },
+      include: { author: { select: { name: true, email: true } } },
+      orderBy: { updatedAt: "desc" },
+      take: 10,
+    });
+
+    subjects = [...new Set(pages.map(page => page.subject).filter((s): s is string => Boolean(s)))];
+    grades = [...new Set(pages.map(page => page.grade).filter((g): g is string => Boolean(g)))];
+  } catch {
+    console.log("Database not available during build, using fallback data");
+    // Fallback data for build time when database is not available
+    subjects = ["Mathematics", "Chemistry", "Physics", "Biology", "Computer Science", "English"];
+    grades = ["7", "8", "9", "10", "11", "12"];
+  }
 
   return (
     <div className="min-h-screen bg-background">
